@@ -11,7 +11,7 @@ export const getDataBaseInstance = async() => {
     try {
         return await openDB(DATABASE_NAME, DATABASE_VERSION, {
             upgrade(db) {
-                db.createObjectStore(STORE_NAME, { keyPath: "location_name"});
+                db.createObjectStore(STORE_NAME, { keyPath: "locationName"});
             }
         });
     }
@@ -36,6 +36,14 @@ class DatabaseService {
         try {
             const db = await getDataBaseInstance();
             return await db.transaction(STORE_NAME).objectStore(STORE_NAME).getAll()
+        } catch(error) {
+            console.error('Oh!! It failed due to -> ', error);
+        }
+    }
+    getAllLocationNames = async() => {
+        try {
+            const db = await getDataBaseInstance();
+            return await db.transaction(STORE_NAME).objectStore(STORE_NAME).getAllKeys()
         } catch(error) {
             console.error('Oh!! It failed due to -> ', error);
         }
